@@ -151,7 +151,13 @@ class MDP(object):
                 
         '''Action'''
         
-        self.Action=np.load(os.path.join(MODEL_PATH,'Action.npy')).item()
+        self.Action={}
+        
+        self.Get_Action()
+        
+        np.save(os.path.join(MODEL_PATH,'Action_weekend.npy'),self.Action)
+        
+        self.Action=np.load(os.path.join(MODEL_PATH,'Action_weekend.npy')).item()
         
         '''Probability'''
         
@@ -399,11 +405,11 @@ class MDP(object):
 
         Value_statistic=pd.DataFrame(Value_sum.keys(),columns=['iteration'])
         Value_statistic['V_sum']=Value_sum.values()
-        Value_statistic.to_csv(os.path.join(MODEL_PATH,'Value_sum_weekday.csv'))
+        Value_statistic.to_csv(os.path.join(MODEL_PATH,'Value_sum_weekend.csv'))
 
         State_value_table=pd.DataFrame(self.State_value.keys(),columns=['State'])
         State_value_table['value']=self.State_value.values()
-        State_value_table.to_csv(os.path.join(MODEL_PATH,'State_value_weekday.cscv'))
+        State_value_table.to_csv(os.path.join(MODEL_PATH,'State_value_weekend.cscv'))
 
     
     def Bellman(self,state):
@@ -516,15 +522,15 @@ if __name__ == '__main__':
 
     MODEL_PATH='./kddcup-testing/model/modelfile/'
 
-    All_grid = np.load(os.path.join(MODEL_PATH,'All_grid.npy'))
+    All_grid = np.load(os.path.join(MODEL_PATH,'All_grid_weekend.npy'))
 
-    Reward_dic = np.load(os.path.join(MODEL_PATH,'Reward_dic.npy')).item()
+    Reward_dic = np.load(os.path.join(MODEL_PATH,'Reward_dic_weekend.npy')).item()
 
-    Capacity_dic = np.load(os.path.join(MODEL_PATH,'Capacity_dic.npy')).item()
+    Capacity_dic = np.load(os.path.join(MODEL_PATH,'Capacity_dic_weekend.npy')).item()
 
-    Dispatch_PROB = np.load(os.path.join(MODEL_PATH,'Dispatch_PROB.npy')).item()
+    Dispatch_PROB = np.load(os.path.join(MODEL_PATH,'Dispatch_PROB_weekend.npy')).item()
 
-    Request_PROB = np.load(os.path.join(MODEL_PATH,'Request_PROB.npy')).item()
+    Request_PROB = np.load(os.path.join(MODEL_PATH,'Request_PROB_weekend.npy')).item()
 
 
     mdp=MDP(All_grid,end_step,Reward_dic,Capacity_dic,Dispatch_PROB,Request_PROB)
